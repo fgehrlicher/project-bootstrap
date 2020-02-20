@@ -13,6 +13,6 @@ func (loader Loader) Load(handle io.Reader) (conf Config, err error) {
 	if err != nil {
 		return
 	}
-	json.Unmarshal(data, &conf)
+	err = json.Unmarshal(data, &conf)
 	return
 }

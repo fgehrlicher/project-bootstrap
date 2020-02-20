@@ -42,6 +42,19 @@ func TestLoaderLoad(t *testing.T) {
 	assertion.Equal(gitlabUrl, config.GitlabConfig.Url)
 }
 
+func TestLoaderLoadInvalidJson(t *testing.T) {
+	invalidJson := `
+{
+		"url": "%s"
+	},
+	gitlab": {
+		"url": "%s"
+`
+	reader := strings.NewReader(invalidJson)
+	_, err := Loader{}.Load(reader)
+	assert.NotNil(t, err)
+}
+
 func TestLoaderLoadNilReader(t *testing.T) {
 	_, err := Loader{}.Load(InvalidReader{})
 	assert.Equal(t, invalidReaderError, err)
