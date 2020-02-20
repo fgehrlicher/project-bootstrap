@@ -9,7 +9,10 @@ import (
 type Loader struct{}
 
 func (loader Loader) Load(handle io.Reader) (conf Config, err error) {
-	data, _ := ioutil.ReadAll(handle)
+	data, err := ioutil.ReadAll(handle)
+	if err != nil {
+		return
+	}
 	json.Unmarshal(data, &conf)
 	return
 }

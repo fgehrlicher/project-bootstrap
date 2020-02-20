@@ -1,12 +1,21 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
+
+type InvalidReader struct {}
+var invalidReaderError = errors.New("im an invalid reader")
+
+func (i InvalidReader) Read(p []byte) (n int, err error) {
+	err = invalidReaderError
+	return
+}
 
 func TestLoaderLoad(t *testing.T) {
 	jenkinsUrl := "https://jenkins.com"
@@ -31,4 +40,9 @@ func TestLoaderLoad(t *testing.T) {
 
 	assertion.Equal(jenkinsUrl, config.JenkinsConfig.Url)
 	assertion.Equal(gitlabUrl, config.GitlabConfig.Url)
+}
+
+func TestLoaderLoadNilReader(t *testing.T) {
+	_, err := Loader{}.Load(InvalidReader{})
+	assert.Equal(t, invalidReaderError, err)
 }
