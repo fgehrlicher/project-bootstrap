@@ -1,0 +1,8 @@
+{
+  "jenkins": {
+    "url": "%s"
+  },
+  "gitlab": {
+    "url": "%s"
+  }
+}

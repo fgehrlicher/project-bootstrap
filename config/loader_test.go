@@ -3,6 +3,7 @@ package config
 import (
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"strings"
 	"testing"
 
@@ -17,19 +18,20 @@ func (i InvalidReader) Read(p []byte) (n int, err error) {
 	return
 }
 
+func loadFixture(t *testing.T, name string) string {
+	content, err := ioutil.ReadFile("./testdata/" + name)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return string(content)
+}
+
 func TestLoaderLoad(t *testing.T) {
 	jenkinsUrl := "https://jenkins.com"
 	gitlabUrl := "https://gitlab.com"
-	jsonTemplate := `
-{
-	"jenkins": {
-		"url": "%s"
-	},
-	"gitlab": {
-		"url": "%s"
-	}
-}
-`
+	jsonTemplate := loadFixture(t, "valid_config.json")
+
 	configJson := fmt.Sprintf(jsonTemplate, jenkinsUrl, gitlabUrl)
 	reader := strings.NewReader(configJson)
 	assertion := assert.New(t)
@@ -43,13 +45,7 @@ func TestLoaderLoad(t *testing.T) {
 }
 
 func TestLoaderLoadInvalidJson(t *testing.T) {
-	invalidJson := `
-{
-		"url": "%s"
-	},
-	gitlab": {
-		"url": "%s"
-`
+	invalidJson := loadFixture(t, "invalid_config.txt")
 	reader := strings.NewReader(invalidJson)
 	_, err := Loader{}.Load(reader)
 	assert.NotNil(t, err)
