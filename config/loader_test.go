@@ -10,11 +10,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-type InvalidReader struct {}
-var invalidReaderError = errors.New("im an invalid reader")
+type InvalidReader struct{}
+
+var errInvalidReader = errors.New("im an invalid reader")
 
 func (i InvalidReader) Read(p []byte) (n int, err error) {
-	err = invalidReaderError
+	err = errInvalidReader
 	return
 }
 
@@ -28,30 +29,30 @@ func loadFixture(t *testing.T, name string) string {
 }
 
 func TestLoaderLoad(t *testing.T) {
-	jenkinsUrl := "https://jenkins.com"
-	gitlabUrl := "https://gitlab.com"
+	jenkinsURL := "https://jenkins.com"
+	gitlabURL := "https://gitlab.com"
 	jsonTemplate := loadFixture(t, "valid_config.json")
 
-	configJson := fmt.Sprintf(jsonTemplate, jenkinsUrl, gitlabUrl)
-	reader := strings.NewReader(configJson)
+	configJSON := fmt.Sprintf(jsonTemplate, jenkinsURL, gitlabURL)
+	reader := strings.NewReader(configJSON)
 	assertion := assert.New(t)
 
 	fileLoader := Loader{}
 	config, err := fileLoader.Load(reader)
 	assertion.Nil(err)
 
-	assertion.Equal(jenkinsUrl, config.JenkinsConfig.Url)
-	assertion.Equal(gitlabUrl, config.GitlabConfig.Url)
+	assertion.Equal(jenkinsURL, config.JenkinsConfig.Url)
+	assertion.Equal(gitlabURL, config.GitlabConfig.Url)
 }
 
 func TestLoaderLoadInvalidJson(t *testing.T) {
-	invalidJson := loadFixture(t, "invalid_config.txt")
-	reader := strings.NewReader(invalidJson)
+	invalidJSON := loadFixture(t, "invalid_config.txt")
+	reader := strings.NewReader(invalidJSON)
 	_, err := Loader{}.Load(reader)
 	assert.NotNil(t, err)
 }
 
 func TestLoaderLoadNilReader(t *testing.T) {
 	_, err := Loader{}.Load(InvalidReader{})
-	assert.Equal(t, invalidReaderError, err)
+	assert.Equal(t, errInvalidReader, err)
 }
