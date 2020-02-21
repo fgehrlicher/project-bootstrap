@@ -3,8 +3,8 @@ package config
 // Config is the main configuration that comes from loading
 // a json file.
 type Config struct {
-	JenkinsConfig JenkinsConfig `json:"jenkins"`
-	GitlabConfig  GitlabConfig  `json:"gitlab"`
+	JenkinsConfig JenkinsConfig `yaml:"jenkins"`
+	GitlabConfig  GitlabConfig  `yaml:"gitlab"`
 }
 
 // JenkinsConfig is the jenkins specific config

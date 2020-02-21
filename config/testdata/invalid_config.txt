@@ -1,6 +1,1 @@
-{
-		"url": "%s"
-	},
-	gitlab": {
-		"url": "%s"
-		11
+not valid yml

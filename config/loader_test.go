@@ -31,10 +31,10 @@ func loadFixture(t *testing.T, name string) string {
 func TestLoaderLoad(t *testing.T) {
 	jenkinsURL := "https://jenkins.com"
 	gitlabURL := "https://gitlab.com"
-	jsonTemplate := loadFixture(t, "valid_config.json")
+	ymlTemplate := loadFixture(t, "valid_config.yml")
 
-	configJSON := fmt.Sprintf(jsonTemplate, jenkinsURL, gitlabURL)
-	reader := strings.NewReader(configJSON)
+	ymlConfig := fmt.Sprintf(ymlTemplate, jenkinsURL, gitlabURL)
+	reader := strings.NewReader(ymlConfig)
 	assertion := assert.New(t)
 
 	fileLoader := Loader{}
@@ -46,8 +46,8 @@ func TestLoaderLoad(t *testing.T) {
 }
 
 func TestLoaderLoadInvalidJson(t *testing.T) {
-	invalidJSON := loadFixture(t, "invalid_config.txt")
-	reader := strings.NewReader(invalidJSON)
+	invalidYML := loadFixture(t, "invalid_config.txt")
+	reader := strings.NewReader(invalidYML)
 	_, err := Loader{}.Load(reader)
 	assert.NotNil(t, err)
 }
