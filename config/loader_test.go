@@ -41,8 +41,8 @@ func TestLoaderLoad(t *testing.T) {
 	config, err := fileLoader.Load(reader)
 	assertion.Nil(err)
 
-	assertion.Equal(jenkinsURL, config.JenkinsConfig.Url)
-	assertion.Equal(gitlabURL, config.GitlabConfig.Url)
+	assertion.Equal(jenkinsURL, config.JenkinsConfig.URL)
+	assertion.Equal(gitlabURL, config.GitlabConfig.URL)
 }
 
 func TestLoaderLoadInvalidJson(t *testing.T) {
