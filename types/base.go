@@ -11,7 +11,7 @@ var AllowedKinds = []string{
 }
 
 var (
-	errInvalidID = errors.New("invalid id")
+	errInvalidID   = errors.New("invalid id")
 	errInvalidKind = errors.New("invalid kind")
 )
 

@@ -8,7 +8,7 @@ import (
 
 func TestBaseDefinitionValidate(t *testing.T) {
 	baseDefinition := BaseDefinition{
-		ID: "id",
+		ID:   "id",
 		Kind: WorkflowType,
 	}
 

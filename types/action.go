@@ -7,4 +7,3 @@ const ActionType = "workflow"
 type Action struct {
 	*BaseDefinition
 }
-
