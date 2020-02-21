@@ -22,7 +22,7 @@ func TestBaseDefinitionValidateNoID(t *testing.T) {
 	}
 
 	err := baseDefinition.Validate()
-	assert.Equal(t, errInvalidID, err)
+	assert.Equal(t, ErrInvalidID, err)
 }
 
 func TestBaseDefinitionValidateNoKind(t *testing.T) {
@@ -31,7 +31,7 @@ func TestBaseDefinitionValidateNoKind(t *testing.T) {
 	}
 
 	err := baseDefinition.Validate()
-	assert.Equal(t, errInvalidKind, err)
+	assert.Equal(t, ErrInvalidKind, err)
 }
 
 func TestBaseDefinitionValidateInvalidKind(t *testing.T) {
@@ -41,5 +41,5 @@ func TestBaseDefinitionValidateInvalidKind(t *testing.T) {
 	}
 
 	err := baseDefinition.Validate()
-	assert.Equal(t, errInvalidKind, err)
+	assert.Equal(t, ErrInvalidKind, err)
 }

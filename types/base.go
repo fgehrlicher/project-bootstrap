@@ -11,8 +11,10 @@ var AllowedKinds = []string{
 }
 
 var (
-	errInvalidID   = errors.New("invalid id")
-	errInvalidKind = errors.New("invalid kind")
+	// ErrInvalidID is returned for invalid ids
+	ErrInvalidID = errors.New("invalid id")
+	// ErrInvalidKind is returned for invalid a invalid kind
+	ErrInvalidKind = errors.New("invalid kind")
 )
 
 // BaseDefinition is the base of all definitions
@@ -32,7 +34,7 @@ type MetaData struct {
 // Validate validates the base definition
 func (baseDefinition BaseDefinition) Validate() error {
 	if baseDefinition.ID == "" {
-		return errInvalidID
+		return ErrInvalidID
 	}
 
 	for _, kind := range AllowedKinds {
@@ -41,5 +43,5 @@ func (baseDefinition BaseDefinition) Validate() error {
 		}
 	}
 
-	return errInvalidKind
+	return ErrInvalidKind
 }
