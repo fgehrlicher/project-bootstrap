@@ -1,0 +1,8 @@
+id: testid
+kind: testkind
+
+metadata:
+  name: testname
+  version: testversion
+  description: >-
+    testdescription
