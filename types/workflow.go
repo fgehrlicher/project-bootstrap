@@ -5,5 +5,5 @@ const WorkflowType = "workflow"
 
 // Workflow is the abstract workflow definition
 type Workflow struct {
-	*BaseDefinition
+	BaseDefinition `yaml:",inline"`
 }

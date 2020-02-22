@@ -5,5 +5,5 @@ const ActionType = "workflow"
 
 // Action is the abstract action definition
 type Action struct {
-	*BaseDefinition
+	BaseDefinition `yaml:",inline"`
 }
