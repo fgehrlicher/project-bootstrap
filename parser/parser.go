@@ -10,8 +10,7 @@ import (
 )
 
 // Parser parses stuff
-type Parser struct {
-}
+type Parser struct{}
 
 // ParseWorkflow parses a workflow
 func (parser Parser) ParseWorkflow(handle io.Reader) (workflow types.Workflow, err error) {
