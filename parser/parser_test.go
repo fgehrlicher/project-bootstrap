@@ -43,7 +43,7 @@ func TestParserParseWorkflow(t *testing.T) {
 	assertion.Nil(err)
 	assertion.NotNil(workflow.BaseDefinition)
 	assertion.Equal("testid", workflow.ID)
-	assertion.Equal("testkind", workflow.Kind)
+	assertion.Equal("workflow", workflow.Kind)
 	assertion.Equal("testname", workflow.MetaData.Name)
 	assertion.Equal("testversion", workflow.MetaData.Version)
 	assertion.Equal("testdescription", workflow.MetaData.Description)
@@ -92,7 +92,7 @@ func TestParserParseAction(t *testing.T) {
 	assertion.Nil(err)
 	assertion.NotNil(workflow.BaseDefinition)
 	assertion.Equal("testid", workflow.ID)
-	assertion.Equal("testkind", workflow.Kind)
+	assertion.Equal("action", workflow.Kind)
 	assertion.Equal("testname", workflow.MetaData.Name)
 	assertion.Equal("testversion", workflow.MetaData.Version)
 	assertion.Equal("testdescription", workflow.MetaData.Description)
@@ -113,14 +113,81 @@ func TestParserParseActionInvalidReader(t *testing.T) {
 }
 
 func TestParserParseActionInvalidYaml(t *testing.T) {
-	workflowReader := loadFixture(t, "invalid.txt")
+	actionReader := loadFixture(t, "invalid.txt")
 	parser := Parser{}
 
-	_, err := parser.ParseAction(workflowReader)
+	_, err := parser.ParseAction(actionReader)
 
 	assert.NotNil(t, err)
 
-	err = workflowReader.Close()
+	err = actionReader.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestParserGetKindWorkflow(t *testing.T) {
+	actionReader := loadFixture(t, "test_workflow.yml")
+	parser := Parser{}
+	assertion := assert.New(t)
+
+	kind, err := parser.GetKind(actionReader)
+	assertion.Nil(err)
+	assertion.Equal("workflow", kind)
+
+	err = actionReader.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestParserGetKindAction(t *testing.T) {
+	actionReader := loadFixture(t, "test_action.yml")
+	parser := Parser{}
+	assertion := assert.New(t)
+
+	kind, err := parser.GetKind(actionReader)
+	assertion.Nil(err)
+	assertion.Equal("action", kind)
+
+	err = actionReader.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestParserGetKindInvalidReader(t *testing.T) {
+	invalidReader := InvalidReader{}
+
+	parser := Parser{}
+	_, err := parser.GetKind(invalidReader)
+
+	assert.Equal(t, errInvalidReader, err)
+}
+
+func TestParserGetKindInvalidYaml(t *testing.T) {
+	actionReader := loadFixture(t, "invalid.txt")
+	parser := Parser{}
+
+	_, err := parser.GetKind(actionReader)
+
+	assert.NotNil(t, err)
+
+	err = actionReader.Close()
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestParserGetKindInvalidKind(t *testing.T) {
+	actionReader := loadFixture(t, "invalid_definition.yml")
+	parser := Parser{}
+
+	_, err := parser.GetKind(actionReader)
+
+	assert.NotNil(t, err)
+
+	err = actionReader.Close()
 	if err != nil {
 		t.Fatal(err)
 	}

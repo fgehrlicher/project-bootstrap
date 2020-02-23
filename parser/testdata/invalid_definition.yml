@@ -1,5 +1,5 @@
 id: testid
-kind: action
+kind: invalidkind
 
 metadata:
   name: testname

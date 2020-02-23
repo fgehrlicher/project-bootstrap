@@ -12,26 +12,47 @@ import (
 // Parser parses definitions
 type Parser struct{}
 
-// ParseWorkflow parses a workflow
-func (parser Parser) ParseWorkflow(handle io.Reader) (workflow types.Workflow, err error) {
-	workflow.BaseDefinition = types.BaseDefinition{}
+// GetKind returns the kind of a file handle
+func (parser Parser) GetKind(handle io.Reader) (string, error) {
+	baseDefinition := types.BaseDefinition{}
 	content, err := ioutil.ReadAll(handle)
 	if err != nil {
-		return
+		return "", err
+	}
+
+	err = yaml.Unmarshal(content, &baseDefinition)
+	if err != nil {
+		return "", err
+	}
+
+	kind := baseDefinition.Kind
+	if !types.AllowedKinds.IsAllowed(kind) {
+		return "", types.ErrInvalidKind
+	}
+
+	return kind, err
+}
+
+// ParseWorkflow parses a workflow
+func (parser Parser) ParseWorkflow(handle io.Reader) (types.Workflow, error) {
+	workflow := types.Workflow{BaseDefinition: types.BaseDefinition{}}
+	content, err := ioutil.ReadAll(handle)
+	if err != nil {
+		return workflow, err
 	}
 
 	err = yaml.Unmarshal(content, &workflow)
-	return
+	return workflow, err
 }
 
-// ParseWorkflow parses a action
-func (parser Parser) ParseAction(handle io.Reader) (action types.Action, err error) {
-	action.BaseDefinition = types.BaseDefinition{}
+// ParseAction parses a action
+func (parser Parser) ParseAction(handle io.Reader) (types.Action, error) {
+	action := types.Action{BaseDefinition: types.BaseDefinition{}}
 	content, err := ioutil.ReadAll(handle)
 	if err != nil {
-		return
+		return action, err
 	}
 
 	err = yaml.Unmarshal(content, &action)
-	return
+	return action, err
 }

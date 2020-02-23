@@ -1,5 +1,5 @@
 id: testid
-kind: testkind
+kind: workflow
 
 metadata:
   name: testname
