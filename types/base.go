@@ -4,8 +4,22 @@ import (
 	"errors"
 )
 
+// Kinds is the type for the allowed kind list
+type Kinds []string
+
+// IsAllowed checks if a kind is allowed
+func (kinds Kinds) IsAllowed(kind string) bool {
+	for _, kindItem := range kinds {
+		if kindItem == kind {
+			return true
+		}
+	}
+
+	return false
+}
+
 // AllowedKinds defines all valid kinds
-var AllowedKinds = []string{
+var AllowedKinds = Kinds{
 	WorkflowType,
 	ActionType,
 }
@@ -37,11 +51,9 @@ func (baseDefinition BaseDefinition) Validate() error {
 		return ErrInvalidID
 	}
 
-	for _, kind := range AllowedKinds {
-		if baseDefinition.Kind == kind {
-			return nil
-		}
+	if !AllowedKinds.IsAllowed(baseDefinition.Kind) {
+		return ErrInvalidKind
 	}
 
-	return ErrInvalidKind
+	return nil
 }
