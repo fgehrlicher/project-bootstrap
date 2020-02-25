@@ -1,0 +1,16 @@
+---
+id: gitlab_add_members
+kind: action
+
+metadata:
+  name: Gitlab Add Members
+  version: 1.0.0
+  description: >-
+    Adds Members to a gitlab project
+
+vars:
+  - name: project_id
+    description: The Project Url
+    type: URL
+    conf:
+      required: true

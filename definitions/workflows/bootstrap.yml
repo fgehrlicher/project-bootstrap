@@ -1,0 +1,22 @@
+# Dummy workflow
+---
+id: dummyworkflow
+kind: workflow
+
+metadata:
+  name: Dummy Workflow
+  version: 1.0.0
+  description: >-
+    Lorem Plan ipsum dolor sit amet, consetetur sadipscing
+    elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore
+    magna aliquyam erat, sed diam voluptua. At vero eos et
+    accusam et justo duo dolores et ea rebum. Stet clita
+
+steps:
+  - name: Create project
+    action: gitlab_create_project
+    vars:
+      project_id:
+
+  - name: Add users to project
+    action: gitlab_add_members
